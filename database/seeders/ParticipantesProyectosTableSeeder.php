@@ -1,7 +1,10 @@
 <?php
 
 namespace Database\Seeders;
+
 use App\Models\ParticipanteProyecto;
+use App\Models\Proyecto;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,7 +15,9 @@ class ParticipantesProyectosTableSeeder extends Seeder
      */
     public function run(): void
     {
-        ParticipanteProyecto::truncate();
-        ParticipanteProyecto::factory(5)->create();
+        $users = User::all();
+        $users->each(function ($user) {
+            $user->proyectos()->attach(Proyecto::all()->random()->id);
+        });
     }
 }
